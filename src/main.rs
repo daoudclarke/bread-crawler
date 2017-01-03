@@ -19,7 +19,6 @@ fn main() {
 
     let mut buf = String::new();
     response.read_to_string(&mut buf).expect("Failed to read response");
-    println!("{}", buf);
 
     let document = Document::from(&*buf);
 
