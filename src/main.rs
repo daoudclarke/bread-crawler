@@ -1,4 +1,10 @@
+
+
 extern crate reqwest;
+extern crate select;
+
+use select::document::Document;
+use select::predicate::{Predicate, Attr, Class, Name};
 
 use std::io::Read;
 
@@ -10,8 +16,14 @@ fn main() {
     for header in response.headers().iter() {
         println!("{}: {}", header.name(), header.value_string());
     }
+
     let mut buf = String::new();
     response.read_to_string(&mut buf).expect("Failed to read response");
     println!("{}", buf);
-}
 
+    let document = Document::from(&*buf);
+
+    for span in document.find(Attr("data-title", "true")) {
+        println!("{}", span.text());
+    }
+}
